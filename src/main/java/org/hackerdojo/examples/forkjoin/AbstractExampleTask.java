@@ -1,6 +1,6 @@
 package org.hackerdojo.examples.forkjoin;
 
-import jsr166y.RecursiveTask;
+import java.util.concurrent.RecursiveTask;
 
 abstract class AbstractExampleTask extends RecursiveTask<Long> {
 
