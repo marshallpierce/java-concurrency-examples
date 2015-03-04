@@ -9,23 +9,23 @@ repositories {
 
 defaultTasks 'build'
 
-sourceCompatibility = JavaVersion.VERSION_1_7
+sourceCompatibility = JavaVersion.VERSION_1_8
 
 dependencies {
-  compile group: 'junit', name: 'junit', version: '4.8.2'
-  compile group: 'net.jcip', name: 'jcip-annotations', version: '1.0'
-  compile group: 'com.intellij', name: 'annotations', version: '7.0.3'
-  compile group: 'org.slf4j', name: 'slf4j-api', version: '1.6.1'
-  compile group: 'org.slf4j', name: 'slf4j-ext', version: '1.6.1'
-  compile group: 'org.jboss.netty', name: 'netty', version: '3.2.3.Final'
-  compile group: 'commons-codec', name: 'commons-codec', version: '1.4'
-  compile group: 'com.google.guava', name: 'guava', version: 'r07'
-  compile group: 'joda-time', name: 'joda-time', version: '1.6.2'
-  compile group: 'org.scala-lang', name: 'scala-compiler', version: '2.8.1'
-  runtime group: 'ch.qos.logback', name: 'logback-classic', version: '0.9.26'
+  compile 'junit:junit:4.8.2'
+  compile 'net.jcip:jcip-annotations:1.0'
+  compile 'com.intellij:annotations:7.0.3'
+  compile 'org.slf4j:slf4j-api:1.6.1'
+  compile 'org.slf4j:slf4j-ext:1.6.1'
+  compile 'org.jboss.netty:netty:3.2.3.Final'
+  compile 'commons-codec:commons-codec:1.4'
+  compile 'com.google.guava:guava:r07'
+  compile 'joda-time:joda-time:1.6.2'
+  compile 'org.scala-lang:scala-compiler:2.8.1'
+  runtime 'ch.qos.logback:logback-classic:0.9.26'
 
-  compile 'org.scala-lang:scala-library:2.8.1'
-  compile 'org.scala-lang:scala-library:2.8.1'
+  compile 'org.scala-lang:scala-library:2.10.4'
+  compile 'org.scala-lang:scala-actors-migration_2.10:1.0.0'
 }
 
 task wrapper(type: Wrapper) {
