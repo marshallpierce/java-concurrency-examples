@@ -6,6 +6,7 @@ import java.util.concurrent.ExecutorCompletionService;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.ThreadLocalRandom;
 
 class Main {
 
@@ -17,9 +18,24 @@ class Main {
         final ExecutorService ex = Executors.newCachedThreadPool();
         final CompletionService<Void> completionService = new ExecutorCompletionService<Void>(ex);
 
-        for (int i = 0; i < 100; i++) {
-            completionService.submit(new FieldWriter(), null);
-            completionService.submit(new FieldWatcher(), null);
+        ThreadLocalRandom r = ThreadLocalRandom.current();
+
+        for (int i = 0; i < 8; i++) {
+            completionService.submit(() -> {
+                while (true) {
+                    checker = new SanityCheckerWithNoFinal(r.nextInt());
+                }
+            }, null);
+
+            completionService.submit(() -> {
+                while (true) {
+                    if (Main.checker == null) {
+                        continue;
+                    }
+
+                    Main.checker.check();
+                }
+            }, null);
         }
 
         final Future<Void> future = completionService.take();
