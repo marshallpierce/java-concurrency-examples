@@ -1,6 +1,5 @@
 plugins {
   id 'java'
-  id 'scala'
 }
 
 repositories {
@@ -23,9 +22,6 @@ dependencies {
   compile 'joda-time:joda-time:1.6.2'
   compile 'org.scala-lang:scala-compiler:2.8.1'
   runtime 'ch.qos.logback:logback-classic:0.9.26'
-
-  compile 'org.scala-lang:scala-library:2.10.4'
-  compile 'org.scala-lang:scala-actors-migration_2.10:1.0.0'
 }
 
 task wrapper(type: Wrapper) {
