@@ -6,27 +6,21 @@ import java.util.concurrent.Future;
 
 public class ShutdownMain {
     public static void main(String[] args) throws InterruptedException {
-        rawThread();
-        executor();
-    }
+        // start a plain thread
+        Thread thread = new Thread(new Sleeper());
+        thread.start();
 
-    private static void executor() throws InterruptedException {
+        // use an executor
         ExecutorService executorService = Executors.newCachedThreadPool();
         Future<?> future = executorService.submit(new Sleeper());
 
         Thread.sleep(50);
 
+        // interrupt the two tasks
+        thread.interrupt();
+
         future.cancel(true);
         executorService.shutdown();
-    }
-
-    private static void rawThread() throws InterruptedException {
-        Thread thread = new Thread(new Sleeper());
-        thread.start();
-
-        Thread.sleep(50);
-
-        thread.interrupt();
     }
 
     private static class Sleeper implements Runnable {
