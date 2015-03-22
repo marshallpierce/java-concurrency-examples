@@ -26,17 +26,17 @@ class Main {
                     checker = new SanityCheckerWithNoFinal(r.nextInt());
                 }
             }, null);
-
-            completionService.submit(() -> {
-                while (true) {
-                    if (Main.checker == null) {
-                        continue;
-                    }
-
-                    Main.checker.check();
-                }
-            }, null);
         }
+
+        completionService.submit(() -> {
+            while (true) {
+                if (Main.checker == null) {
+                    continue;
+                }
+
+                Main.checker.check();
+            }
+        }, null);
 
         final Future<Void> future = completionService.take();
 
