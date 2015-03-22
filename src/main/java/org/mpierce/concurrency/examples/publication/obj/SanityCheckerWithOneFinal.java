@@ -1,27 +1,26 @@
-package org.mpierce.concurrency.examples.publication;
+package org.mpierce.concurrency.examples.publication.obj;
 
 import net.jcip.annotations.NotThreadSafe;
 
 @NotThreadSafe
-class SanityCheckerWithNoFinal implements SanityChecker {
+class SanityCheckerWithOneFinal implements SanityChecker {
 
     @SuppressWarnings({"FieldMayBeFinal"})
     private int value;
 
-    private int otherValue;
+    private final int finalValue;
 
-    SanityCheckerWithNoFinal(int value) {
+    SanityCheckerWithOneFinal(int value) {
         this.value = value;
-        this.otherValue = value;
+        this.finalValue = value;
     }
 
     public void check() {
         //noinspection ConstantConditions
         int v = this.value;
-        int v2 = this.otherValue;
+        int v2 = this.finalValue;
         if (v != v2) {
             throw new IllegalStateException("saw " + v + " and " + v2);
         }
     }
-
 }

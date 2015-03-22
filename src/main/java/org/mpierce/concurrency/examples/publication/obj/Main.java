@@ -1,4 +1,4 @@
-package org.mpierce.concurrency.examples.publication;
+package org.mpierce.concurrency.examples.publication.obj;
 
 import java.util.concurrent.CompletionService;
 import java.util.concurrent.ExecutionException;
