@@ -24,6 +24,7 @@ final class CounterRaceMain {
                 waitUntilReady(latch);
 
                 for (int j = 0; j < 1000000; j++) {
+                    // data race here
                     counter[0]++;
                 }
             }));
