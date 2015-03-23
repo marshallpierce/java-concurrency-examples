@@ -1,27 +1,25 @@
 package org.mpierce.concurrency.examples.diningphilosophers.waiter;
 
-import javax.annotation.concurrent.ThreadSafe;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import javax.annotation.concurrent.ThreadSafe;
 
 @ThreadSafe
 class Waiter {
 
     private final Lock stateChangeLock = new ReentrantLock();
 
-    private final Map<ChopstickAssignment, Condition> conditions = new HashMap<ChopstickAssignment, Condition>();
+    private final Map<ChopstickAssignment, Condition> conditions = new ConcurrentHashMap<>();
 
-    private final Map<WaiterPhilosopher, ChopstickAssignment> pairs =
-            new HashMap<WaiterPhilosopher, ChopstickAssignment>();
+    private final Map<WaiterPhilosopher, ChopstickAssignment> pairs = new ConcurrentHashMap<>();
 
     void initialize(List<WaiterPhilosopher> philosophers) {
-        List<ChopstickAssignment> assignmentList = new ArrayList<ChopstickAssignment>();
+        List<ChopstickAssignment> assignmentList = new ArrayList<>();
         for (WaiterPhilosopher philosopher : philosophers) {
             final ChopstickAssignment assignment = new ChopstickAssignment();
             assignmentList.add(assignment);
@@ -50,7 +48,6 @@ class Waiter {
         final Condition masterCondition = conditions.get(assignment);
         final Lock leftSharedLock = assignment.getLeftNeighbor().getSharedLock();
         final Lock rightSharedLock = assignment.getRightNeighbor().getSharedLock();
-
 
         stateChangeLock.lockInterruptibly();
         try {
@@ -101,5 +98,4 @@ class Waiter {
             stateChangeLock.unlock();
         }
     }
-
 }
