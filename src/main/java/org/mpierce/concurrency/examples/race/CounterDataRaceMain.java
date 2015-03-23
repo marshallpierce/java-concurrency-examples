@@ -8,7 +8,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-final class CounterRaceMain {
+final class CounterDataRaceMain {
 
     private static int[] counter = new int[]{0};
 
