@@ -43,7 +43,7 @@ class Main {
         try {
             future.get();
         } catch (ExecutionException e) {
-            System.out.println("Worker died with exception: " + e);
+            System.out.println("Worker died with exception: " + e.getCause());
             ex.shutdownNow();
         }
 
