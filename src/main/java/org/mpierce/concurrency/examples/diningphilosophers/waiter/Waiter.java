@@ -1,9 +1,9 @@
 package org.mpierce.concurrency.examples.diningphilosophers.waiter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -14,43 +14,50 @@ class Waiter {
 
     private final Lock stateChangeLock = new ReentrantLock();
 
-    private final Map<ChopstickAssignment, Condition> conditions = new ConcurrentHashMap<>();
+    private final Map<ChopstickAssignment, Condition> conditions = new HashMap<>();
 
-    private final Map<WaiterPhilosopher, ChopstickAssignment> pairs = new ConcurrentHashMap<>();
+    private final Map<WaiterPhilosopher, ChopstickAssignment> pairs = new HashMap<>();
 
     void initialize(List<WaiterPhilosopher> philosophers) {
-        List<ChopstickAssignment> assignmentList = new ArrayList<>();
-        for (WaiterPhilosopher philosopher : philosophers) {
-            final ChopstickAssignment assignment = new ChopstickAssignment();
-            assignmentList.add(assignment);
-            pairs.put(philosopher, assignment);
-            conditions.put(assignment, stateChangeLock.newCondition());
-        }
 
-        for (int i = 0; i < assignmentList.size(); i++) {
-            int rightIndex = i + 1;
-            if (rightIndex == assignmentList.size()) {
-                rightIndex = 0;
+        stateChangeLock.lock();
+        try {
+            List<ChopstickAssignment> assignmentList = new ArrayList<>();
+            for (WaiterPhilosopher philosopher : philosophers) {
+                final ChopstickAssignment assignment = new ChopstickAssignment();
+                assignmentList.add(assignment);
+                pairs.put(philosopher, assignment);
+                conditions.put(assignment, stateChangeLock.newCondition());
             }
 
-            int leftIndex = i - 1;
-            if (leftIndex == -1) {
-                leftIndex = assignmentList.size() - 1;
-            }
+            for (int i = 0; i < assignmentList.size(); i++) {
+                int rightIndex = i + 1;
+                if (rightIndex == assignmentList.size()) {
+                    rightIndex = 0;
+                }
 
-            assignmentList.get(i).setLeftNeighbor(assignmentList.get(leftIndex));
-            assignmentList.get(i).setRightNeighbor(assignmentList.get(rightIndex));
+                int leftIndex = i - 1;
+                if (leftIndex == -1) {
+                    leftIndex = assignmentList.size() - 1;
+                }
+
+                assignmentList.get(i).setLeftNeighbor(assignmentList.get(leftIndex));
+                assignmentList.get(i).setRightNeighbor(assignmentList.get(rightIndex));
+            }
+        } finally {
+            stateChangeLock.unlock();
         }
     }
 
     void acquirePair(WaiterPhilosopher philosopher) throws InterruptedException {
-        final ChopstickAssignment assignment = pairs.get(philosopher);
-        final Condition masterCondition = conditions.get(assignment);
-        final Lock leftSharedLock = assignment.getLeftNeighbor().getSharedLock();
-        final Lock rightSharedLock = assignment.getRightNeighbor().getSharedLock();
-
         stateChangeLock.lockInterruptibly();
+
         try {
+            final ChopstickAssignment assignment = pairs.get(philosopher);
+            final Condition masterCondition = conditions.get(assignment);
+            final Lock leftSharedLock = assignment.getLeftNeighbor().getSharedLock();
+            final Lock rightSharedLock = assignment.getRightNeighbor().getSharedLock();
+
             while (true) {
                 while (!assignment.getExclusiveLock().tryLock()) {
                     masterCondition.await();
@@ -81,12 +88,13 @@ class Waiter {
     }
 
     void releasePair(WaiterPhilosopher philosopher) throws InterruptedException {
-        final ChopstickAssignment assignment = pairs.get(philosopher);
-        final Lock leftSharedLock = assignment.getLeftNeighbor().getSharedLock();
-        final Lock rightSharedLock = assignment.getRightNeighbor().getSharedLock();
-
         stateChangeLock.lockInterruptibly();
+
         try {
+            final ChopstickAssignment assignment = pairs.get(philosopher);
+            final Lock leftSharedLock = assignment.getLeftNeighbor().getSharedLock();
+            final Lock rightSharedLock = assignment.getRightNeighbor().getSharedLock();
+
             assignment.getExclusiveLock().unlock();
             leftSharedLock.unlock();
             rightSharedLock.unlock();
