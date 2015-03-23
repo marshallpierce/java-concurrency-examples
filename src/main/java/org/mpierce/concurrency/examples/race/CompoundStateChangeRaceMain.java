@@ -1,26 +1,33 @@
 package org.mpierce.concurrency.examples.race;
 
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
 
 final class CompoundStateChangeRaceMain {
 
     static final Holder holder = new Holder();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
         final ExecutorService ex = Executors.newCachedThreadPool();
 
-        ex.submit(() -> {
+        Future<?> f1 = ex.submit(() -> {
             int i = 0;
             while (true) {
                 int next = i++;
                 holder.x = next;
                 holder.y = next;
+
+                if (Thread.interrupted()) {
+                    Thread.currentThread().interrupt();
+                    return;
+                }
             }
         });
 
-        ex.submit(() -> {
+        Future<?> f2 = ex.submit(() -> {
             int ok = 0;
             int failed = 0;
             for (int i = 0; i < 100000000; i++) {
@@ -36,6 +43,12 @@ final class CompoundStateChangeRaceMain {
 
             System.out.println("Ok: " + ok + ", failed: " + failed);
         });
+
+        f2.get();
+
+        f1.cancel(true);
+
+        ex.shutdown();
     }
 
     static class Holder {
