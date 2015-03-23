@@ -1,9 +1,10 @@
-package org.mpierce.concurrency.examples.publication.field;
+package org.mpierce.concurrency.examples.race;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
-final class FieldPublicationMain {
+final class CompoundStateChangeRaceMain {
 
     static final Holder holder = new Holder();
 
@@ -42,8 +43,15 @@ final class FieldPublicationMain {
         int y;
     }
 
+    // same result: no data race, but still a race condition
     static class VolatileHolder {
         volatile int x;
         volatile int y;
+    }
+
+    // same as VolatileHolder
+    static class AtomicIntHolder {
+        final AtomicInteger x = new AtomicInteger();
+        final AtomicInteger y = new AtomicInteger();
     }
 }
