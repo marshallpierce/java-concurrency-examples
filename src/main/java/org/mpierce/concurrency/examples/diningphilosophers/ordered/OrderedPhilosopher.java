@@ -2,13 +2,13 @@ package org.mpierce.concurrency.examples.diningphilosophers.ordered;
 
 import org.mpierce.concurrency.examples.diningphilosophers.AbstractPhilosopher;
 import org.mpierce.concurrency.examples.diningphilosophers.Chopstick;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.concurrent.CountDownLatch;
 
 class OrderedPhilosopher extends AbstractPhilosopher<OrderedChopstick> {
-    protected OrderedPhilosopher(@NotNull CountDownLatch latch, @NotNull OrderedChopstick left,
-                                 @NotNull OrderedChopstick right,
+    protected OrderedPhilosopher(@Nonnull CountDownLatch latch, @Nonnull OrderedChopstick left,
+                                 @Nonnull OrderedChopstick right,
                                  int maxEats) {
         super(latch, left, right, maxEats);
     }

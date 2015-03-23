@@ -1,6 +1,6 @@
 package org.mpierce.concurrency.examples.diningphilosophers.waiter;
 
-import net.jcip.annotations.ThreadSafe;
+import javax.annotation.concurrent.ThreadSafe;
 
 import java.util.ArrayList;
 import java.util.HashMap;

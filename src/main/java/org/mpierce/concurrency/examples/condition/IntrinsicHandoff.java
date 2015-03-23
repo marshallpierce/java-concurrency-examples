@@ -1,9 +1,9 @@
 package org.mpierce.concurrency.examples.condition;
 
-import net.jcip.annotations.GuardedBy;
-import net.jcip.annotations.ThreadSafe;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.concurrent.GuardedBy;
+import javax.annotation.concurrent.ThreadSafe;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 @ThreadSafe
 public final class IntrinsicHandoff<T> implements Handoff<T> {
@@ -16,7 +16,7 @@ public final class IntrinsicHandoff<T> implements Handoff<T> {
     private T obj = null;
 
     @Override
-    public synchronized void put(@NotNull T obj) throws InterruptedException {
+    public synchronized void put(@Nonnull T obj) throws InterruptedException {
         // wait until someone has taken the current object, if there is one
         while (hasObject()) {
             this.wait();
@@ -31,7 +31,7 @@ public final class IntrinsicHandoff<T> implements Handoff<T> {
     }
 
     @Override
-    @NotNull
+    @Nonnull
     public synchronized T take() throws InterruptedException {
         // wait until something is there
         while (!hasObject()) {

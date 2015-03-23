@@ -1,6 +1,6 @@
 package org.mpierce.concurrency.examples.dns;
 
-import net.jcip.annotations.Immutable;
+import javax.annotation.concurrent.Immutable;
 import org.jboss.netty.buffer.ChannelBuffer;
 
 import java.util.List;

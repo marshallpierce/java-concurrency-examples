@@ -1,7 +1,7 @@
 package org.mpierce.concurrency.examples.dns;
 
 import com.google.common.base.Charsets;
-import net.jcip.annotations.Immutable;
+import javax.annotation.concurrent.Immutable;
 import org.jboss.netty.buffer.ChannelBuffer;
 
 @Immutable

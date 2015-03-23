@@ -1,9 +1,9 @@
 package org.mpierce.concurrency.examples.condition;
 
-import net.jcip.annotations.GuardedBy;
-import net.jcip.annotations.ThreadSafe;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.concurrent.GuardedBy;
+import javax.annotation.concurrent.ThreadSafe;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -22,7 +22,7 @@ public final class ExplicitHandoff<T> implements Handoff<T> {
     private T obj;
 
     @Override
-    public void put(@NotNull T obj) throws InterruptedException {
+    public void put(@Nonnull T obj) throws InterruptedException {
         lock.lock();
         try {
             while (!isEmpty()) {
@@ -41,7 +41,7 @@ public final class ExplicitHandoff<T> implements Handoff<T> {
         return this.obj == null;
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public T take() throws InterruptedException {
         lock.lock();

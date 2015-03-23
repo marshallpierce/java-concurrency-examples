@@ -1,6 +1,6 @@
 package org.mpierce.concurrency.examples.publication.obj;
 
-import net.jcip.annotations.NotThreadSafe;
+import javax.annotation.concurrent.NotThreadSafe;
 
 @NotThreadSafe
 class SanityCheckerWithOneFinal implements SanityChecker {

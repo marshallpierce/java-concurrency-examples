@@ -4,7 +4,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import net.jcip.annotations.Immutable;
+import javax.annotation.concurrent.Immutable;
 
 final class ConstructorLeakThisMain {
 

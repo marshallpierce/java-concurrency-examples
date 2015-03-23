@@ -1,12 +1,12 @@
 package org.mpierce.concurrency.examples.condition;
 
-import net.jcip.annotations.ThreadSafe;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.concurrent.ThreadSafe;
+import javax.annotation.Nonnull;
 
 @ThreadSafe
 public interface Handoff<T> {
-    void put(@NotNull T obj) throws InterruptedException;
+    void put(@Nonnull T obj) throws InterruptedException;
 
-    @NotNull
+    @Nonnull
     T take() throws InterruptedException;
 }

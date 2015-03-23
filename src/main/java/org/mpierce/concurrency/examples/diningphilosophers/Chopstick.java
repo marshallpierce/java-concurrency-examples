@@ -1,6 +1,6 @@
 package org.mpierce.concurrency.examples.diningphilosophers;
 
-import net.jcip.annotations.ThreadSafe;
+import javax.annotation.concurrent.ThreadSafe;
 
 @ThreadSafe
 public interface Chopstick {

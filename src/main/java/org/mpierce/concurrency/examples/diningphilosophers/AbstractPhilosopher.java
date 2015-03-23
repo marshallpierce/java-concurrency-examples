@@ -1,8 +1,8 @@
 package org.mpierce.concurrency.examples.diningphilosophers;
 
-import net.jcip.annotations.NotThreadSafe;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.concurrent.NotThreadSafe;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,7 +27,7 @@ public abstract class AbstractPhilosopher<T extends Chopstick> implements Runnab
 
     private final CountDownLatch latch;
 
-    protected AbstractPhilosopher(@NotNull CountDownLatch latch, @Nullable T left, @Nullable T right,
+    protected AbstractPhilosopher(@Nonnull CountDownLatch latch, @Nullable T left, @Nullable T right,
                                   int maxEats) {
         this.latch = latch;
         this.left = left;

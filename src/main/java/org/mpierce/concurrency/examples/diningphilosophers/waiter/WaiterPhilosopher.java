@@ -1,7 +1,7 @@
 package org.mpierce.concurrency.examples.diningphilosophers.waiter;
 
 import org.mpierce.concurrency.examples.diningphilosophers.AbstractPhilosopher;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.concurrent.CountDownLatch;
 
@@ -9,7 +9,7 @@ final class WaiterPhilosopher extends AbstractPhilosopher<WaiterChopstick> {
 
     private final Waiter waiter;
 
-    WaiterPhilosopher(@NotNull CountDownLatch latch, @NotNull WaiterChopstick left, @NotNull WaiterChopstick right,
+    WaiterPhilosopher(@Nonnull CountDownLatch latch, @Nonnull WaiterChopstick left, @Nonnull WaiterChopstick right,
                       int numEats,
                       Waiter waiter) {
         super(latch, left, right, numEats);

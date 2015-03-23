@@ -1,7 +1,7 @@
 package org.mpierce.concurrency.examples.condition;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.concurrent.locks.AbstractQueuedSynchronizer;
 
@@ -24,7 +24,7 @@ public class AqsHandoff<T> implements Handoff<T> {
     private T obj;
 
     @Override
-    public void put(@NotNull T obj) throws InterruptedException {
+    public void put(@Nonnull T obj) throws InterruptedException {
 
         this.emptySync.acquire(0);
         try {
@@ -34,7 +34,7 @@ public class AqsHandoff<T> implements Handoff<T> {
         }
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public T take() throws InterruptedException {
         this.nonEmptySync.acquire(0);

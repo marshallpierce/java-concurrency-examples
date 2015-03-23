@@ -1,9 +1,9 @@
 package org.mpierce.concurrency.examples.diningphilosophers.chandymisra;
 
-import net.jcip.annotations.GuardedBy;
-import net.jcip.annotations.ThreadSafe;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.concurrent.GuardedBy;
+import javax.annotation.concurrent.ThreadSafe;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,7 +50,7 @@ class ChandyMisraPhilosopher implements Runnable {
     private AwaitingChopstickState rightState = new AwaitingChopstickState();
 
 
-    protected ChandyMisraPhilosopher(@NotNull CountDownLatch latch, @NotNull ChandyMisraChopstick left,
+    protected ChandyMisraPhilosopher(@Nonnull CountDownLatch latch, @Nonnull ChandyMisraChopstick left,
                                      int maxEats) {
         this.latch = latch;
         this.left.set(left);
@@ -239,7 +239,7 @@ class ChandyMisraPhilosopher implements Runnable {
             this.holder = null;
         }
 
-        public void set(@NotNull Lock lock, @NotNull Condition condition, @NotNull ChopstickHolder holder) {
+        public void set(@Nonnull Lock lock, @Nonnull Condition condition, @Nonnull ChopstickHolder holder) {
             this.lock = lock;
             this.condition = condition;
             this.holder = holder;

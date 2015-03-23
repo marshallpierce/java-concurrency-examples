@@ -1,6 +1,6 @@
 package org.mpierce.concurrency.examples.diningphilosophers.ordered;
 
-import net.jcip.annotations.ThreadSafe;
+import javax.annotation.concurrent.ThreadSafe;
 import org.mpierce.concurrency.examples.diningphilosophers.Chopstick;
 
 import java.util.concurrent.atomic.AtomicInteger;
