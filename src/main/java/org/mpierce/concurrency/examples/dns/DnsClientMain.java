@@ -1,12 +1,5 @@
 package org.mpierce.concurrency.examples.dns;
 
-import org.jboss.netty.buffer.ChannelBuffer;
-import org.jboss.netty.buffer.ChannelBuffers;
-import org.joda.time.DateTime;
-import org.joda.time.Duration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -21,6 +14,12 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorCompletionService;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import org.jboss.netty.buffer.ChannelBuffer;
+import org.jboss.netty.buffer.ChannelBuffers;
+import org.joda.time.DateTime;
+import org.joda.time.Duration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DnsClientMain {
 
@@ -30,10 +29,10 @@ public class DnsClientMain {
         int port = 53535;
 
         ExecutorService executor = Executors.newCachedThreadPool();
-        CompletionService<Void> cs = new ExecutorCompletionService<Void>(executor);
+        CompletionService<Void> cs = new ExecutorCompletionService<>(executor);
 
-        int numSenders = 10;
-        int requestsPerSender = 1000;
+        int numSenders = 2;
+        int requestsPerSender = 100000;
 
         CyclicBarrier latch = new CyclicBarrier(numSenders);
 

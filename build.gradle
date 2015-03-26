@@ -20,7 +20,7 @@ dependencies {
   compile 'junit:junit:4.12'
   compile "org.slf4j:slf4j-api:${deps.slf4j}"
   compile "org.slf4j:slf4j-ext:${deps.slf4j}"
-  compile 'org.jboss.netty:netty:3.2.3.Final'
+  compile 'org.jboss.netty:netty:3.2.10.Final'
   compile 'commons-codec:commons-codec:1.4'
   compile 'com.google.guava:guava:18.0'
   compile 'joda-time:joda-time:2.7'
