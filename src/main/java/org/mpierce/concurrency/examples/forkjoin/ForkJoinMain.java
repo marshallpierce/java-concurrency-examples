@@ -10,7 +10,7 @@ public class ForkJoinMain {
     public static void main(String[] args) {
         ForkJoinPool pool = new ForkJoinPool();
 
-        int numItems = 10000000;
+        int numItems = 100000000;
         int[] data = new int[numItems];
         Random random = new Random();
 
