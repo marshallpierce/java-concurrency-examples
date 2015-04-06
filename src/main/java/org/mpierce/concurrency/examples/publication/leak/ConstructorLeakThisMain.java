@@ -6,6 +6,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import javax.annotation.concurrent.Immutable;
 
+/**
+ * Repeatedly creates new Holder instances (which unsafely publishes itself to a static in its ctor) and checks for
+ * whether or not a half-initialized object is seen.
+ */
 final class ConstructorLeakThisMain {
 
     static Holder holder;

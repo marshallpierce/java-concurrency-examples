@@ -8,6 +8,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * Demo of unsafe publication leading to possibly seeing a partially-initialized object
+ */
 class Main {
 
     @SuppressWarnings({"StaticNonFinalField", "PublicField", "StaticVariableMayNotBeInitialized"})

@@ -8,6 +8,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+/**
+ * Demo of two threads updating the same memory without synchronization.
+ */
 final class CounterDataRaceMain {
 
     private static int[] counter = new int[]{0};
