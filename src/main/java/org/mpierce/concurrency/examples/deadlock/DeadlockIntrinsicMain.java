@@ -4,7 +4,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-final class DeadlockMain {
+final class DeadlockIntrinsicMain {
 
     public static void main(String[] args) {
         Object lock1 = new Object();
