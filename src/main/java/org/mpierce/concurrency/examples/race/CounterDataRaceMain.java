@@ -13,20 +13,21 @@ import java.util.concurrent.Future;
  */
 final class CounterDataRaceMain {
 
-    private static int[] counter = new int[]{0};
+    private static final int[] counter = new int[]{0};
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
         ExecutorService executorService = Executors.newCachedThreadPool();
 
-        CountDownLatch latch = new CountDownLatch(2);
+        int numThreads = 2;
+        CountDownLatch latch = new CountDownLatch(numThreads);
 
         List<Future<?>> futures = new ArrayList<>();
 
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < numThreads; i++) {
             futures.add(executorService.submit(() -> {
                 waitUntilReady(latch);
 
-                for (int j = 0; j < 1000000; j++) {
+                for (int j = 0; j < 1_000_000; j++) {
                     // data race here
                     counter[0]++;
                 }
