@@ -3,6 +3,9 @@ package org.mpierce.concurrency.examples.future;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 
+/**
+ * Demo of chaining computation
+ */
 final class CompletableFutureMain {
     public static void main(String[] args) throws InterruptedException {
 

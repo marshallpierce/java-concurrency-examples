@@ -17,9 +17,9 @@ public class HandoffMain {
 
     public static void main(String[] args) throws InterruptedException {
         Handoff<Object> handoff;
-        handoff = new IntrinsicHandoff<Object>();
-//        handoff = new ExplicitHandoff<Object>();
-//        handoff = new AqsHandoff<Object>();
+        handoff = new IntrinsicHandoff<>();
+//        handoff = new ExplicitHandoff<>();
+//        handoff = new AqsHandoff<>();
 
         ExecutorService executorService = Executors.newCachedThreadPool();
         CompletionService<Void> cs = new ExecutorCompletionService<Void>(executorService);

@@ -6,7 +6,7 @@ final class ParallelStreamMain {
     public static void main(String[] args) {
         System.out.println("Starting");
 
-        long sum = new SplittableRandom().ints(1_00_000_000)
+        long sum = new SplittableRandom().ints(100_000_000)
             .parallel()
             .mapToLong(x -> (long) x * x)
             .sum();

@@ -49,6 +49,7 @@ public abstract class AbstractPhilosopher<T extends Chopstick> implements Runnab
             }
             logger.info("Eaten enough");
         } catch (InterruptedException ignored) {
+            Thread.currentThread().interrupt();
             logger.warn("Interrupted, exiting");
         }
     }
