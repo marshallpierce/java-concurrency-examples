@@ -1,45 +1,59 @@
 package org.mpierce.concurrency.examples.publication.obj;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CompletionService;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorCompletionService;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.Supplier;
 
 /**
  * Demo of unsafe publication leading to possibly seeing a partially-initialized object
  */
+@SuppressWarnings("unused")
 class Main {
 
-    @SuppressWarnings({"StaticNonFinalField", "PublicField", "StaticVariableMayNotBeInitialized"})
-    public static SanityChecker checker;
-
     public static void main(String[] args) throws InterruptedException {
-
         final ExecutorService ex = Executors.newCachedThreadPool();
         final CompletionService<Void> completionService = new ExecutorCompletionService<Void>(ex);
 
-        ThreadLocalRandom r = ThreadLocalRandom.current();
+        repeat(4, SanityChecker::new)
+                .forEach((checker) -> {
+                    completionService.submit(new Runnable() {
+                        @Override
+                        public void run() {
+                            // cold outer loop that will be OSR JIT'd
+                            while (true) {
+                                hotLoop();
+                            }
+                        }
 
-        for (int i = 0; i < 8; i++) {
-            completionService.submit(() -> {
-                while (true) {
-                    checker = new SanityCheckerWithNoFinal(r.nextInt());
-                }
-            }, null);
-        }
+                        // have hot code in a separate function so it can get properly JIT'd
+                        void hotLoop() {
+                            for (int i = 1; i < 128; i++) {
+                                checker.check();
+                            }
+                        }
+                    }, null);
 
-        completionService.submit(() -> {
-            while (true) {
-                if (Main.checker == null) {
-                    continue;
-                }
+                    completionService.submit(new Runnable() {
+                        @Override
+                        public void run() {
+                            while (true) {
+                                hotLoop();
+                            }
+                        }
 
-                Main.checker.check();
-            }
-        }, null);
+                        private void hotLoop() {
+                            for (int i = 0; i < 128; i++) {
+                                checker.write();
+                            }
+                        }
+                    }, null);
+                });
 
         final Future<Void> future = completionService.take();
 
@@ -51,5 +65,14 @@ class Main {
         }
 
         System.exit(1);
+    }
+
+    private static <T> List<T> repeat(int n, Supplier<T> supp) {
+        var res = new ArrayList<T>();
+        for (int i = 0; i < n; i++) {
+            res.add(supp.get());
+        }
+
+        return res;
     }
 }
